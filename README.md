@@ -18,8 +18,11 @@
 
 [链表](https://github.com/kai-ma/Algorithm_Notes/blob/main/链表.md)
 
+[哈希表](./哈希表.md)
+
 [动态规划](https://github.com/kai-ma/Algorithm_Notes/blob/main/动态规划.md)
 
-[回溯](https://github.com/kai-ma/Algorithm_Notes/blob/main/回溯.md)
+[回溯法](https://github.com/kai-ma/Algorithm_Notes/blob/main/回溯法.md)
 
 [栈](https://github.com/kai-ma/Algorithm_Notes/blob/main/栈.md)
+
