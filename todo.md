@@ -68,8 +68,36 @@ todo [254. 因子的组合](https://leetcode-cn.com/problems/factor-combinations
 序号	题目	题解
 ~~1	42. 接雨水（困难）	暴力解法、优化、双指针、单调栈
 ~~2	739. 每日温度（中等）	暴力解法 + 单调栈~~
-3	496. 下一个更大元素 I（简单）	暴力解法、单调栈
-4	316. 去除重复字母（困难）	栈 + 哨兵技巧（Java、C++、Python）
+~~3	496. 下一个更大元素 I（简单）	暴力解法、单调栈~~
+~~4	316. 去除重复字母（困难）	栈 + 哨兵技巧（Java、C++、Python）~~
 5	901. 股票价格跨度（中等）	「力扣」第 901 题：股票价格跨度（单调栈）
 ~~6	402. 移掉K位数字~~
 7	581. 最短无序连续子数组	
+
+
+
+## 滑动窗口
+
+#### [727. 最小窗口子序列](https://leetcode-cn.com/problems/minimum-window-subsequence/)
+
+#### [30. 串联所有单词的子串](https://leetcode-cn.com/problems/substring-with-concatenation-of-all-words/)
+
+#### [159. 至多包含两个不同字符的最长子串](https://leetcode-cn.com/problems/longest-substring-with-at-most-two-distinct-characters/)
+
+#### [438. 找到字符串中所有字母异位词](https://leetcode-cn.com/problems/find-all-anagrams-in-a-string/)
+
+#### [325. 和等于 k 的最长子数组长度](https://leetcode-cn.com/problems/maximum-size-subarray-sum-equals-k/)
+
+#### [718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
+
+
+
+### 位运算
+
+#### [268. 丢失的数字](https://leetcode-cn.com/problems/missing-number/)
+
+#### [260. 只出现一次的数字 III](https://leetcode-cn.com/problems/single-number-iii/)
+
+#### [137. 只出现一次的数字 II](https://leetcode-cn.com/problems/single-number-ii/)
+
+#### [389. 找不同](https://leetcode-cn.com/problems/find-the-difference/)
