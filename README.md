@@ -10,19 +10,50 @@
 
 ## 分类刷题
 
-先刷各部分笔记中**标题加粗**的题，这部分题频率高且**最为基础**，很多题都是在这些题目的基础上做拓展，应该**看到题目就想到最优解法，2-8min之内做出来。**
+先刷各部分笔记中**标题加粗**的题，这部分题频率高且**最核心**。
 
 ⚡题为综合题目。
 
-[树](https://github.com/kai-ma/Algorithm_Notes/blob/main/树.md)
+### 数据结构
 
-[链表](https://github.com/kai-ma/Algorithm_Notes/blob/main/链表.md)
+[树](leetcode/树.md)
 
-[哈希表](./哈希表.md)
+[链表](leetcode/链表.md)
 
-[动态规划](https://github.com/kai-ma/Algorithm_Notes/blob/main/动态规划.md)
+[栈](leetcode/栈.md)
 
-[回溯法](https://github.com/kai-ma/Algorithm_Notes/blob/main/回溯法.md)
+[队列](leetcode/队列.md)
 
-[栈](https://github.com/kai-ma/Algorithm_Notes/blob/main/栈.md)
+[哈希表](leetcode/哈希表.md)
 
+[字符串](leetcode/字符串.md)
+
+[数组](leetcode/数组.md)
+
+### 算法
+
+[动态规划](leetcode/动态规划.md)
+
+[贪心法](leetcode/贪心法.md)
+
+[回溯法](leetcode/回溯法.md)
+
+[滑动窗口](leetcode/滑动窗口.md)
+
+[二分法](leetcode/二分法.md)
+
+[双指针](leetcode/双指针.md)
+
+[排序](leetcode/排序.md)
+
+[递归](leetcode/递归.md)
+
+[分治法](leetcode/分治法.md)
+
+[设计](leetcode/设计.md)
+
+[思维题](leetcode/思维题)
+
+[位运算](leetcode/位运算.md)
+
+[搜索](leetcode/搜索.md)
