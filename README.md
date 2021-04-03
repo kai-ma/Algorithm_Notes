@@ -32,11 +32,11 @@
 
 ### 算法
 
-[动态规划](leetcode/动态规划.md)
+[动态规划](leetcode/dynamic-programming.md)
+
+[回溯法](leetcode/backtrack.md)
 
 [贪心法](leetcode/贪心法.md)
-
-[回溯法](leetcode/回溯法.md)
 
 [滑动窗口](leetcode/滑动窗口.md)
 

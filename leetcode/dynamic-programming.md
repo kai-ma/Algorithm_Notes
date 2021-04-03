@@ -106,10 +106,19 @@ todo[377. 组合总和 Ⅳ](https://leetcode-cn.com/problems/combination-sum-iv/
 
 步骤：
 
-- 定义子问题
-- 写出子问题的递推关系
+- 确定状态与选择，定义子问题
+- 写出子问题的递推关系——状态转移方程
 - 确定 DP 数组的计算顺序
 - 空间优化（可选）
+
+以[322. 零钱兑换](#322-零钱兑换)为例，状态就是递归函数的传参，也就是目标金额amount。选择就是导致状态变化的行为，选择一枚零钱，就相当于减小了目标金额。子问题就是输入一个目标金额 `n`，返回凑出目标金额 `n` 的最少硬币数量。
+
+递推关系、状态转移方程：
+
+```python
+for coin in coins:
+    dp(n) = min(dp(n), 1 + dp(n - coin))
+```
 
 **动态规划的本质是不重复求解子问题，保存子问题的解，通过状态转移方程直接计算出当前问题，大大压缩时间复杂度。**
 
@@ -2368,8 +2377,6 @@ Difficulty: **困难**
 
 其实这类题用回溯法也同样能解，但是如果剪枝不够完全，就会超时。回溯是递归的一种，又回到了那个问题，动态规划是带记忆化的回溯。
 
-
-
 ### [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
 
 Difficulty: **中等**
@@ -2421,25 +2428,58 @@ Difficulty: **中等**
 *   1 <= coins[i] <= 2<sup>31</sup> - 1
 *   0 <= amount <= 10<sup>4</sup>
 
-**思路：类似于完全背包问题。cost数组填充dp数组**
+**思路：类似于完全背包问题，cost数组填充dp数组**
 
 **dp[i]表示组成i的最少硬币个数，dp[i] = 1 + Math.min(dp[i-amout[0]], dp[i-amout[1]]....dp[i-amount[amount.length-1]])，前提是i<=amount并且dp[i-amout]有效。**
 
 ```java
-public int coinChange(int[] coins, int amount) {
+public int coinChange(int [] coins, int amount) {
     int[] dp = new int[amount + 1];
     Arrays.fill(dp, amount + 1);
     dp[0] = 0;
 
-    for (int coin : coins) {
-        for (int i = coin; i <= amount; i++) {
-            dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+    for(int i = 0; i < dp.length; i++){
+        for(int coin : coins){
+            if(i >= coin){
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
         }
     }
-
     return dp[amount] == amount + 1 ? -1 : dp[amount];
 }
 ```
+
+**评论区遍历剪枝的方法：** 
+
+```java
+class Solution {
+   int res = Integer.MAX_VALUE;
+
+    public int coinChange(int[] coins, int amount) {
+        if (amount == 0) {
+            return 0;
+        }
+        Arrays.sort(coins);
+        mincoin(coins, amount, coins.length - 1, 0);
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+
+    private void mincoin(int[] coins, int amount, int index, int count) {
+        if (amount == 0) {
+            res = Math.min(res, count);
+            return;
+        }
+        if (index < 0) {
+            return;
+        }
+        for(int i = amount/coins[index];i>=0 && i+count<res; i--){//4ms
+            mincoin(coins, amount - (i * coins[index]), index - 1, count + i);
+        }
+    }
+}
+```
+
+
 
 **相关题：**
 
@@ -2525,12 +2565,6 @@ Difficulty: **中等**
         return -1;
     }
 ```
-
-
-
-
-
-
 
 ### [983. 最低票价](https://leetcode-cn.com/problems/minimum-cost-for-tickets/)
 
