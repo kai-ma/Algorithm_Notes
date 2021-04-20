@@ -1,3 +1,7 @@
+**[1553. 吃掉 N 个橘子的最少天数](https://leetcode-cn.com/problems/minimum-number-of-days-to-eat-n-oranges/) 2021春招实习腾讯3月21日笔试第二题**
+
+
+
 ### 非常典型
 
 ​	**[91. 解码方法](#91-解码方法)**
@@ -9,10 +13,6 @@
 ​	**[70. 爬楼梯](#70-爬楼梯)**
 
 ​			[198. 打家劫舍](#198-打家劫舍)
-
-​	**[121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)**
-
-​	[122. 买卖股票的最佳时机(二)](#122-买卖股票的最佳时机(二))
 
 ⚡**[42. 接雨水](#42-接雨水)**
 
@@ -54,9 +54,19 @@
 
 ​		[516. 最长回文子序列](#516-最长回文子序列)
 
-Todo：
+​	**[131. 分割回文串](#131-分割回文串)**
 
-[516. 最长回文子序列](https://leetcode-cn.com/problems/longest-palindromic-subsequence/)
+​	[132. 分割回文串II](#132-分割回文串II)
+
+**阿里4.12春招实习笔试第二题**
+
+​	[1278. 分割回文串III](#1278-分割回文串III)
+
+
+
+
+
+Todo：
 
 [336. 回文对](https://leetcode-cn.com/problems/palindrome-pairs/)、
 
@@ -101,6 +111,14 @@ todo[377. 组合总和 Ⅳ](https://leetcode-cn.com/problems/combination-sum-iv/
 ### 其他，很值得思考
 
 ​	[221. 最大正方形](#221-最大正方形)
+
+
+
+### 股票问题
+
+**[121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)**
+
+[122. 买卖股票的最佳时机(二)](#122-买卖股票的最佳时机(二))
 
 
 
@@ -419,174 +437,6 @@ Difficulty: **中等**
 数组是个环，也就是说偷第一家，最后一家就不能偷；偷最后一家，第一家就不能偷。
 
 所以，我们问题分成求 nums[0:n - 1]或者 nums[1:n]，就变成了[198. 打家劫舍](#198-打家劫舍)。
-
-
-
-
-
-### [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
-
-**相同题：[剑指 Offer 63. 股票的最大利润](https://leetcode-cn.com/problems/gu-piao-de-zui-da-li-run-lcof/)**
-
-Difficulty: **简单**
-
-
-给定一个数组 `prices` ，它的第 `i` 个元素 `prices[i]` 表示一支给定股票第 `i` 天的价格。
-
-你只能选择 **某一天** 买入这只股票，并选择在 **未来的某一个不同的日子** 卖出该股票。设计一个算法来计算你所能获取的最大利润。
-
-返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 `0` 。
-
-**示例 1：**
-
-```
-输入：[7,1,5,3,6,4]
-输出：5
-解释：在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
-     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。
-```
-
-**示例 2：**
-
-```
-输入：prices = [7,6,4,3,1]
-输出：0
-解释：在这种情况下, 没有交易完成, 所以最大利润为 0。
-```
-
-**提示：**
-
-*   1 <= prices.length <= 10<sup>5</sup>
-*   0 <= prices[i] <= 10<sup>4</sup>
-
-**思路1：动态规划。**dp[i] 表示前i天的最大利润，则：`dp[i] = max(dp[i-1], prices[i]-minprice)`，minprice是从0到i-1的最小价格。
-
-**思路2：==要是炒股能知道哪一天是最低价就好了。==**
-
-**贪心法。对于任意第i天，如果在这一天卖股票，在这一天的最大收益 `maxprofit =  price[i] - 从起始到i-1处的最小价格`。**每一天都计算这一天的maxprofit，并去更新最大收益，最终即可得到最大收益。
-
-方法2其实是方法1的空间优化方法。
-
-```java
-//方法1，动态规划。
-public int maxProfit(int[] prices) {
-    int minprice = prices[0];
-    int[] dp = new int[prices.length];
-    for (int i = 1; i < prices.length; i++){
-        minprice = Math.min(minprice, prices[i]);
-        dp[i] = Math.max(dp[i - 1], prices[i] - minprice);
-    }
-    return dp[prices.length - 1];
-}
-
-//方法2：贪心法
-public int maxProfit(int prices[]) {
-    int minprice = Integer.MAX_VALUE;
-    int maxprofit = 0;
-    for (int i = 0; i < prices.length; i++) {
-        if (prices[i] < minprice) {
-            minprice = prices[i];
-        } else if (prices[i] - minprice > maxprofit) {
-            maxprofit = prices[i] - minprice;
-        }
-    }
-    return maxprofit;
-}
-```
-
-
-
-### [122. 买卖股票的最佳时机(二)](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
-
-Difficulty: **简单**
-
-
-给定一个数组，它的第 _i_ 个元素是一支给定股票第 _i_ 天的价格。
-
-设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
-
-**注意：**你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
-
-**示例 1:**
-
-```
-输入: [7,1,5,3,6,4]
-输出: 7
-解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
-     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
-```
-
-**示例 2:**
-
-```
-输入: [1,2,3,4,5]
-输出: 4
-解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
-     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
-     因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
-```
-
-**示例 3:**
-
-```
-输入: [7,6,4,3,1]
-输出: 0
-解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
-```
-
-**提示：**
-
-*   `1 <= prices.length <= 3 * 10 ^ 4`
-*   `0 <= prices[i] <= 10 ^ 4`
-
-**思路1：动态规划。**用两个数组，cash[i]表示当前持有现金时的最大收益，hold[i]表示当前持有股票时的最大收益。遍历数组不断更新即可。
-
-![image.png](https://pic.leetcode-cn.com/041a4d01398359409ecc69dacc13a44d179dd1a2a9f43b1def80e9a6acceee55-image.png)
-
-```java
-public int maxProfit(int[] prices) {
-    int len = prices.length;
-    if (len <= 1) {
-        return 0;
-    }
-
-    // cash：持有现金
-    // stock：持有股票
-    // 状态数组
-    // 状态转移：cash → stock → cash → stock → cash → stock → cash
-    int[] cash = new int[len];
-    int[] stock = new int[len];
-
-    cash[0] = 0;
-    stock[0] = -prices[0];
-
-    for (int i = 1; i < len; i++) {
-        // 这两行调换顺序也是可以的
-        cash[i] = Math.max(cash[i - 1], stock[i - 1] + prices[i]);
-        stock[i] = Math.max(stock[i - 1], cash[i - 1] - prices[i]);
-    }
-    return cash[len - 1];
-}
-```
-
-**实际上，cash[i]相当于不持有股票，stock[i]相当于持有股票，两者可以合并成一个宽度为2的二维数组，有这么一个想法就好了，后面的股票题会用到。**
-
-而且，观察stock和cash，只与上一天有关，可以压缩成两个变量。
-
-**思路2：贪心法——在每一步总是做出在当前看来最好的选择，只要比前一天高，就卖**。由于可以交易无限次，因此所有上涨交易日都买卖（赚到所有利润），所有下降交易日都不买卖（永不亏钱）。
-
-```java
-public int maxProfit(int[] prices) {
-    if(prices.length<=1) return 0;
-    int max=0;
-    for(int i=1;i<prices.length;i++){
-        if(prices[i]>prices[i-1]){
-            max+=prices[i]-prices[i-1];
-        }
-    }
-    return max;
-}
-```
 
 
 
@@ -1668,6 +1518,185 @@ Difficulty: **中等**
         return dp[0][len - 1];
     }
 ```
+
+
+
+### [131. 分割回文串](https://leetcode-cn.com/problems/palindrome-partitioning/)
+
+Difficulty: **中等**
+
+
+给你一个字符串 `s`，请你将`s`分割成一些子串，使每个子串都是 **回文串** 。返回 `s` 所有可能的分割方案。
+
+**回文串** 是正着读和反着读都一样的字符串。
+
+**示例 1：**
+
+```
+输入：s = "aab"
+输出：[["a","a","b"],["aa","b"]]
+```
+
+**示例 2：**
+
+```
+输入：s = "a"
+输出：[["a"]]
+```
+
+**提示：**
+
+*   `1 <= s.length <= 16`
+*   `s` 仅由小写英文字母组成
+
+官方题解写的很清楚：https://leetcode-cn.com/problems/palindrome-partitioning/solution/fen-ge-hui-wen-chuan-by-leetcode-solutio-6jkv/
+
+
+
+### [132. 分割回文串II](https://leetcode-cn.com/problems/palindrome-partitioning-ii/)
+
+
+给你一个字符串 `s`，请你将 `s` 分割成一些子串，使每个子串都是回文。
+
+返回符合要求的 **最少分割次数** 。
+
+
+**示例 1：**
+
+```
+输入：s = "aab"
+输出：1
+解释：只需一次分割就可将 s 分割成 ["aa","b"] 这样两个回文子串。
+```
+
+**示例 2：**
+
+```
+输入：s = "a"
+输出：0
+```
+
+**示例 3：**
+
+```
+输入：s = "ab"
+输出：1
+```
+
+**提示：**
+
+*   `1 <= s.length <= 2000`
+*   `s` 仅由小写英文字母组成
+
+**思路：第一次见需要两个动态规划的题。回文串是一个动态规划问题，最小分割也是动态规划问题。**
+
+```java
+public class Solution {
+
+    public int minCut(String s) {
+        int len = s.length();
+        // 特判
+        if (len < 2) {
+            return 0;
+        }
+
+        // 状态定义：dp[i]：前缀子串 s[0:i] （包括索引 i 处的字符）符合要求的最少分割次数
+        // 状态转移方程：
+        // dp[i] = min(dp[j] + 1 if s[j + 1: i] 是回文 for j in range(i))
+
+        int[] dp = new int[len];
+        // 2 个字符最多分割 1 次；
+        // 3 个字符最多分割 2 次
+        // 初始化的时候，设置成为这个最多分割次数
+
+        for (int i = 0; i < len; i++) {
+            dp[i] = i;
+        }
+
+        // 参考「力扣」第 5 题：最长回文子串 动态规划 的解法
+        boolean[][] checkPalindrome = new boolean[len][len];
+        for (int right = 0; right < len; right++) {
+            // 注意：left <= right 取等号表示 1 个字符的时候也需要判断
+            for (int left = 0; left <= right; left++) {
+                if (s.charAt(left) == s.charAt(right) && (right - left <= 2 || checkPalindrome[left + 1][right - 1])) {
+                    checkPalindrome[left][right] = true;
+                }
+            }
+        }
+
+        // 1 个字符的时候，不用判断，因此 i 从 1 开始
+        for (int i = 1; i < len; i++) {
+            if (checkPalindrome[0][i]){
+                dp[i] = 0;
+                continue;
+            }
+
+            // 注意：这里是严格，要保证 s[j + 1:i] 至少得有一个字符串
+            for (int j = 0; j < i; j++) {
+                if (checkPalindrome[j + 1][i]) {
+                    dp[i] = Math.min(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        return dp[len - 1];
+    }
+}
+
+作者：liweiwei1419
+链接：https://leetcode-cn.com/problems/palindrome-partitioning-ii/solution/dong-tai-gui-hua-by-liweiwei1419-2/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+```
+
+
+
+### [1278. 分割回文串III](https://leetcode-cn.com/problems/palindrome-partitioning-iii/)
+
+**阿里4.12春招实习笔试第二题**
+
+Difficulty: **困难**
+
+
+给你一个由小写字母组成的字符串 `s`，和一个整数 `k`。
+
+请你按下面的要求分割字符串：
+
+*   首先，你可以将 `s` 中的部分字符修改为其他的小写英文字母。
+*   接着，你需要把 `s` 分割成 `k` 个非空且不相交的子串，并且每个子串都是回文串。
+
+请返回以这种方式分割字符串所需修改的最少字符数。
+
+**示例 1：**
+
+```
+输入：s = "abc", k = 2
+输出：1
+解释：你可以把字符串分割成 "ab" 和 "c"，并修改 "ab" 中的 1 个字符，将它变成回文串。
+```
+
+**示例 2：**
+
+```
+输入：s = "aabbc", k = 3
+输出：0
+解释：你可以把字符串分割成 "aa"、"bb" 和 "c"，它们都是回文串。
+```
+
+**示例 3：**
+
+```
+输入：s = "leetcode", k = 8
+输出：0
+```
+
+**提示：**
+
+*   `1 <= k <= s.length <= 100`
+*   `s` 中只含有小写英文字母。
+
+https://leetcode-cn.com/problems/palindrome-partitioning-iii/solution/javadp-by-z446979478/
+
+
 
 
 
@@ -2866,5 +2895,173 @@ class Solution {
 
 作者：shellbye
 链接：https://leetcode-cn.com/problems/super-egg-drop/solution/ji-dan-diao-luo-xiang-jie-by-shellbye/
+```
+
+
+
+## 股票问题
+
+**[非常好的题解!](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems)**
+
+### [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+
+**相同题：[剑指 Offer 63. 股票的最大利润](https://leetcode-cn.com/problems/gu-piao-de-zui-da-li-run-lcof/)**
+
+Difficulty: **简单**
+
+
+给定一个数组 `prices` ，它的第 `i` 个元素 `prices[i]` 表示一支给定股票第 `i` 天的价格。
+
+你只能选择 **某一天** 买入这只股票，并选择在 **未来的某一个不同的日子** 卖出该股票。设计一个算法来计算你所能获取的最大利润。
+
+返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 `0` 。
+
+**示例 1：**
+
+```
+输入：[7,1,5,3,6,4]
+输出：5
+解释：在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
+     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。
+```
+
+**示例 2：**
+
+```
+输入：prices = [7,6,4,3,1]
+输出：0
+解释：在这种情况下, 没有交易完成, 所以最大利润为 0。
+```
+
+**提示：**
+
+*   1 <= prices.length <= 10<sup>5</sup>
+*   0 <= prices[i] <= 10<sup>4</sup>
+
+**思路1：动态规划。**dp[i] 表示前i天的最大利润，则：`dp[i] = max(dp[i-1], prices[i]-minprice)`，minprice是从0到i-1的最小价格。
+
+**思路2：要是炒股能知道哪一天是最低价就好了。** 贪心法，对于任意第i天，如果在这一天卖股票，在这一天的最大收益 `maxprofit =  price[i] - 从起始到i-1处的最小价格`。**每一天都计算这一天的maxprofit，并去更新最大收益，最终即可得到最大收益。
+
+方法2其实是方法1的空间优化方法。
+
+```java
+//方法1，动态规划。
+public int maxProfit(int[] prices) {
+    int minprice = prices[0];
+    int[] dp = new int[prices.length];
+    for (int i = 1; i < prices.length; i++){
+        minprice = Math.min(minprice, prices[i]);
+        dp[i] = Math.max(dp[i - 1], prices[i] - minprice);
+    }
+    return dp[prices.length - 1];
+}
+
+//方法2：贪心法
+public int maxProfit(int prices[]) {
+    int minprice = Integer.MAX_VALUE;
+    int maxprofit = 0;
+    for (int i = 0; i < prices.length; i++) {
+        if (prices[i] < minprice) {
+            minprice = prices[i];
+        } else if (prices[i] - minprice > maxprofit) {
+            maxprofit = prices[i] - minprice;
+        }
+    }
+    return maxprofit;
+}
+```
+
+
+
+### [122. 买卖股票的最佳时机(二)](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+
+Difficulty: **简单**
+
+
+给定一个数组，它的第 _i_ 个元素是一支给定股票第 _i_ 天的价格。
+
+设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
+
+**注意：**你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+
+**示例 1:**
+
+```
+输入: [7,1,5,3,6,4]
+输出: 7
+解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
+```
+
+**示例 2:**
+
+```
+输入: [1,2,3,4,5]
+输出: 4
+解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
+     因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+```
+
+**示例 3:**
+
+```
+输入: [7,6,4,3,1]
+输出: 0
+解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+```
+
+**提示：**
+
+*   `1 <= prices.length <= 3 * 10 ^ 4`
+*   `0 <= prices[i] <= 10 ^ 4`
+
+**思路1：动态规划。**用两个数组，cash[i]表示当前持有现金时的最大收益，hold[i]表示当前持有股票时的最大收益。遍历数组不断更新即可。
+
+![image.png](https://pic.leetcode-cn.com/041a4d01398359409ecc69dacc13a44d179dd1a2a9f43b1def80e9a6acceee55-image.png)
+
+```java
+public int maxProfit(int[] prices) {
+    int len = prices.length;
+    if (len <= 1) {
+        return 0;
+    }
+
+    // cash：持有现金
+    // stock：持有股票
+    // 状态数组
+    // 状态转移：cash → stock → cash → stock → cash → stock → cash
+    int[] cash = new int[len];
+    int[] stock = new int[len];
+
+    cash[0] = 0;
+    stock[0] = -prices[0];
+
+    for (int i = 1; i < len; i++) {
+        // 这两行调换顺序也是可以的
+        cash[i] = Math.max(cash[i - 1], stock[i - 1] + prices[i]);
+        stock[i] = Math.max(stock[i - 1], cash[i - 1] - prices[i]);
+    }
+    return cash[len - 1];
+}
+```
+
+**实际上，cash[i]相当于不持有股票，stock[i]相当于持有股票，两者可以合并成一个宽度为2的二维数组，有这么一个想法就好了，后面的股票题会用到。**
+
+而且，观察stock和cash，只与上一天有关，可以压缩成两个变量。
+
+**思路2：贪心法——在每一步总是做出在当前看来最好的选择，只要比前一天高，就卖**。由于可以交易无限次，因此所有上涨交易日都买卖（赚到所有利润），所有下降交易日都不买卖（永不亏钱）。
+
+```java
+public int maxProfit(int[] prices) {
+    if(prices.length<=1) return 0;
+    int max=0;
+    for(int i=1;i<prices.length;i++){
+        if(prices[i]>prices[i-1]){
+            max+=prices[i]-prices[i-1];
+        }
+    }
+    return max;
+}
 ```
 

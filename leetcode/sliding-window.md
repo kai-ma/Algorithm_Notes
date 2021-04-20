@@ -1,10 +1,10 @@
 [3. 无重复字符的最长子串](#3-无重复字符的最长子串)
 
+[209. 长度最小的子数组](#209-长度最小的子数组)
+
 **[76. 最小覆盖子串](#76-最小覆盖子串)**
 
-**[567. 字符串的排列](#567-字符串的排列)**
-
-[209. 长度最小的子数组](#209-长度最小的子数组)
+**[567. 字符串的排列](#567-字符串的排列)**、[438. 找到字符串中所有字母异位词](#438-找到字符串中所有字母异位词)
 
 
 
@@ -14,7 +14,7 @@
 
 ### 滑动窗口做题思路
 
-滑动窗口可以理解为双指针的一种特殊用法，一前一后两个指针，中间是窗口。
+**滑动窗口可以理解为双指针的一种特殊用法，因此同样适用于子串数组链表题。**一前一后两个指针，中间是窗口。
 
 - 前指针不断向前移动，直到窗口中的字符满足条件。
 
@@ -22,30 +22,51 @@
 
 再重复上述操作，直至遍历完整个数组。第 1 步相当于在寻找一个**「可行解」**，然后第 2 步在**优化这个「可行解」**，最终找到**最优解**
 
-**模板：**
+**模板：**以[76. 最小覆盖子串](#76-最小覆盖子串)，为例，反复理解。
 
 ```java
-	public String minWindow(String s, String t) {
-        // 起始的时候，都位于 0，同方向移动
-        int left = 0;
-        int right = 0;
-        while (right < sLen) {
-            // 增大窗口
-            window.add(s[right]);
-            ...统计窗口数据等操作
-            right++;
-            //收缩窗口
-            while (满足条件) {
-                window.remove(s[left]);
-                left++;
-                ...更新可行解
+public String minWindow(String s, String t) {
+    int left = 0, right = 0;
+    String res = "";
+    Map<Character, Integer> need = new HashMap<>();
+    Map<Character, Integer> window = new HashMap<>();
+    int valid = 0;
+    //先统计t中每个字符的个数
+    for (char c : t.toCharArray()) {
+        need.put(c, need.getOrDefault(c, 0) + 1);
+    }
+    while (right < s.length()) {
+        // 增大窗口
+        char c = s.charAt(right);    
+        right++;
+        //更新窗口数据统计 先put再加
+        if (need.containsKey(c)) {
+            window.put(c, window.getOrDefault(c, 0) + 1);
+            if (window.get(c).equals(need.get(c))) {
+                valid++;
             }
         }
-        return 最优解;
+        //判断窗口是不是要收缩
+        while (valid == need.size()) {
+            //更新可行解
+            if (right - left + 1 < res.length() || res.length() == 0) {
+                res = s.substring(left, right); 
+            }
+            //缩小窗口
+            char d = s.charAt(left);
+            left++;
+            //更新窗口数据统计 与上面的完全对称 先减再put
+            if (need.containsKey(d)) {
+                if (window.get(d).equals(need.get(d))) {
+                    valid--;
+                }
+                window.put(d, window.get(d) - 1);
+            }
+        }     
     }
+    return res;
+}
 ```
-
-最典型题：[76. 最小覆盖子串](#76-最小覆盖子串)，反复理解。
 
 [3. 无重复字符的最长子串](#3-无重复字符的最长子串)、[209. 长度最小的子数组](#209-长度最小的子数组)这两道题比较基础，思路一样。
 
@@ -116,7 +137,7 @@ public int resgthOfLongestSubstring(String s) {
 }
 ```
 
-也可以用map记录当前char和当前位置，遇到重复的时候，直接读map中存的重复char的位置，相当于left直接跳到位。
+了解一下另一种思路：用map记录当前char和当前位置，遇到重复的时候，直接读map中存的重复char的位置，相当于left直接跳到位。
 
 ```java
 public int lengthOfLongestSubstring(String s) {
@@ -205,10 +226,6 @@ public int minSubArrayLen(int s, int[] nums) {
 }
 ```
 
-**相关高频题：**
-
-[3. 无重复字符的最长子串](#3-无重复字符的最长子串)
-
 
 
 ### **[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/)**
@@ -260,7 +277,7 @@ public String minWindow(String s, String t) {
         // 增大窗口
         char c = s.charAt(right);    
         right++;
-        //...统计窗口数据等操作
+        //更新窗口数据统计
         if (need.containsKey(c)) {
             window.put(c, window.getOrDefault(c, 0) + 1);
             if (window.get(c).equals(need.get(c))) {
@@ -269,18 +286,20 @@ public String minWindow(String s, String t) {
         }
         //判断窗口是不是要收缩
         while (valid == need.size()) {
+            //更新可行解
+            if (right - left + 1 < res.length() || res.length() == 0) {
+                res = s.substring(left, right); //注意前避后开
+            }
+            
             char d = s.charAt(left);
+            left++;
+            //更新窗口数据统计 与上面的完全对称
             if (need.containsKey(d)) {
                 if (window.get(d).equals(need.get(d))) {
                     valid--;
                 }
                 window.put(d, window.get(d) - 1);
             }
-            //更新可行解
-            if (right - left + 1 < res.length() || res.length() == 0) {
-                res = s.substring(left, right); //注意前避后开
-            }
-            left++;
         }     
     }
     return res;
@@ -291,7 +310,9 @@ public String minWindow(String s, String t) {
 
 ### [567. 字符串的排列](https://leetcode-cn.com/problems/permutation-in-string/)
 
-**字节四面笔试的时候遇到了这道题。**
+### [438. 找到字符串中所有字母异位词](https://leetcode-cn.com/problems/find-all-anagrams-in-a-string/)
+
+**字节四面笔试的时候遇到了567这道题。**
 
 Difficulty: **中等**
 
@@ -322,6 +343,8 @@ Difficulty: **中等**
 
 **思路：与[76. 最小覆盖子串](#76-最小覆盖子串)类似，维持一个长度为s1.length()的窗口，统计窗口内的频率，当窗口中所有字母的频率和s1所有字母的频率相同时，说明找到了符合的排列。**
 
+[438. 找到字符串中所有字母异位词](https://leetcode-cn.com/problems/find-all-anagrams-in-a-string/)与这道题方法完全一致，把满足条件的都添加到list就可以了，就不写这道题了。
+
 ```java
 public boolean checkInclusion(String s1, String s2) {
     int left = 0, right = 0, valid = 0;
@@ -332,6 +355,7 @@ public boolean checkInclusion(String s1, String s2) {
     }
     while (right < s2.length()) {
         char c = s2.charAt(right);
+        right++;
         if (need.containsKey(c)) {
             window.put(c, window.getOrDefault(c, 0) + 1);
             //添加之后相等，添加了以后valid的数量会变多一个。
@@ -339,8 +363,13 @@ public boolean checkInclusion(String s1, String s2) {
                 valid++;
             }
         }
+        //right大于等于s1.length()的时候，窗口大小和s1相等了，right每移动一次，left移动一次
         if (right >= s1.length()) {
             char d = s2.charAt(left);
+            left++;
+            if (valid == need.size()) {
+                return true;
+            }
             if (need.containsKey(d)) {
                 //删之前相等，删了以后valid的数量会变少一个。
                 if (window.get(d).equals(need.get(d))) {
@@ -348,12 +377,7 @@ public boolean checkInclusion(String s1, String s2) {
                 }
                 window.put(d, window.get(d) - 1);
             }
-            left++;
         }
-        if (valid == need.size()) {
-            return true;
-        }
-        right++;
     }
     return false;
 }
@@ -393,8 +417,6 @@ public boolean checkInclusion(String s1, String s2) {
     return false;
 }
 ```
-
-
 
 
 
